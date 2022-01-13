@@ -1,12 +1,15 @@
+import pandas as pd
 from random import sample
-import mysql.connector as sql
 from bullet import Password
+import mysql.connector as sql
+
 
 def menu():
     print('=====================Anton Password Manager==========================')
     print('Menu Options:\n\
             1) Generate password\n\
             2) Add user:password\n\
+            3) Show passwords \n\
             0) Exit Password Manager')
     opt = int(input('anton> '))
     return opt
@@ -61,6 +64,13 @@ def insert_mysql(db, cursor, psswd):
     else:
         pass
 
+
+def print_results(db):
+    df = pd.read_sql("select * from manager", db)
+    print("\n\n========================================================================")
+    print(df)
+    print("\n")
+
 try:
     psswd = ""
     usr = input("Mysql username: ")
@@ -79,6 +89,8 @@ if con:
             print('[+] The password generated is: ', psswd,'\n')
         elif opt == 2:
             insert_mysql(db, cursor, psswd)
+        elif opt == 3:
+            print_results(db)
         else:
             print('[-] Please enter a valid option.')
             continue

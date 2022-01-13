@@ -1,8 +1,13 @@
-from socket import AI_PASSIVE
 import mysql.connector as sql
+import pandas as pd
 
 db = sql.connect(host="localhost", user="diego", password="1234", auth_plugin="mysql_native_password")
 cursor = db.cursor()
+
+def mysql_print(db):
+    df = pd.read_sql("select * from prueba", db)
+    print(df)
+
 
 def mysql_read(cursor, table):
     query = 'SELECT * FROM ' + table 
@@ -49,3 +54,4 @@ table = create_table(db, cursor)
 mysql_read(cursor, table)
 mysql_modify(db, cursor)
 mysql_read(cursor, table)
+mysql_print(db)
