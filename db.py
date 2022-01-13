@@ -1,7 +1,7 @@
 from socket import AI_PASSIVE
 import mysql.connector as sql
 
-db = sql.connect(host="localhost", user="diego", password="1234")
+db = sql.connect(host="localhost", user="diego", password="1234", auth_plugin="mysql_native_password")
 cursor = db.cursor()
 
 def mysql_read(cursor, table):
