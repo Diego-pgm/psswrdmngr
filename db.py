@@ -9,7 +9,7 @@ def mysql_print(db):
     print(df)
 
 
-def mysql_read(cursor, table):
+def mysql_read(cursor, table="prueba"):
     query = 'SELECT * FROM ' + table 
     cursor.execute(query)
     r = cursor.fetchall()
@@ -47,11 +47,17 @@ def create_table(db, cursor):
     return table_name
 
 
-
+def delete_user(db, cursor, table_name="prueba"):
+    username=input('Please insert the username you want to delete')
+    query = 'delete from {} where name="{}"'.format(table_name, username) 
+    cursor.execute(query)
+    db.commit()
+    print('User {} deleted successfully'.format(username))
 
 create_database(db, cursor)
-table = create_table(db, cursor)
-mysql_read(cursor, table)
+#table = create_table(db, cursor)
+mysql_read(cursor)
 mysql_modify(db, cursor)
-mysql_read(cursor, table)
+mysql_read(cursor)
 mysql_print(db)
+delete_user(db, cursor)
