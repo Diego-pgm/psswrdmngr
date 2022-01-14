@@ -66,29 +66,34 @@ def insert_mysql(db, cursor, psswd):
     else:
         pass
 
-def print_results(db):
+def print_df(df):
     os.system('clear')
-    df = pd.read_sql("select * from manager order by user asc", db)
-    df = df.rename(columns={'site':'Application', 'user':'Username/Email', 'password':'Password'})
     print('=====================Anton Credential Manager==========================')
     print(df)
     print("\n")
-    input('PRESS ENTER TO RETURN TO MENU: ')
+    input('PRESS ENTER TO RETURN TO MENU')
+
+def print_results(db):
+    df = pd.read_sql("select * from manager order by user asc", db)
+    df = df.rename(columns={'site':'Application', 'user':'Username/Email', 'password':'Password'})
+    print_df(df)
 
 def filter_results(db):
     quest = input('Search by user or app name? (u/a): ')
-    if quest == 'u':
-        quest2 = input('Enter username: ')
-        query = 'select * from manager where user like "%{}%"'.format(quest2)
-        df = pd.read_sql(query, db)
-    elif quest == 'a':
-        quest2 = input('Enter application: ')
-        query = 'select * from manager where site like "%{}%"'.format(quest2)
-        df = pd.read_sql(query, db)
-    df = df.rename(columns={'site':'Application', 'user':'Username/Email', 'password':'Password'})
-    print(df)
-    input('PRESS ENTER TO RETURN TO MENU: ')
-
+    try:
+        if quest == 'u':
+            quest2 = input('Enter username: ')
+            query = 'select * from manager where user like "%{}%"'.format(quest2)
+            df = pd.read_sql(query, db)
+        elif quest == 'a':
+            quest2 = input('Enter application: ')
+            query = 'select * from manager where site like "%{}%"'.format(quest2)
+            df = pd.read_sql(query, db)
+        df = df.rename(columns={'site':'Application', 'user':'Username/Email', 'password':'Password'})
+        print_df(df)
+    except Exception as e:
+        print('[-] Press enter a valid option')
+        input('PRESS ENTER TO RETURN TO MENU')
 
 try:
     psswd = ""
@@ -106,6 +111,7 @@ if con:
         elif opt == 1:
             psswd = gen_passwd()
             print('[+] The password generated is: ', psswd,'\n')
+            input('PRESS ENTER TO CONTINUE')
         elif opt == 2:
             insert_mysql(db, cursor, psswd)
         elif opt == 3:
