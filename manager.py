@@ -40,7 +40,7 @@ def connect_mysql(user, password):
         cursor.execute('use manager')
         cursor.execute('create table manager(site varchar(50) not null, name varchar(50) not null, password varchar(50) not null')
         db.commit()
-        print("[+] Database setup correctly and table setup correctly.\n")
+        print("[+] Database and table creation complete.\n")
         con = True
     return db, cursor, con
 
@@ -54,12 +54,7 @@ def insert_mysql(db, cursor, psswd):
         uname = input('Please insert the username/email: ')
         psswd = input('Please insert the password: ')
     query = 'insert into manager values ("{}", "{}", "{}")'.format(site, uname,psswd)
-    #print(query)
-    quest = input('Are you sure you want to add: \n \
-                    Site: {}\n \
-                    Username/Email: {}\n \
-                    Password: {}\n \
-                    anton> (Y/n): '.format(site, uname,psswd))
+    quest = input('Are you sure you want to add: \n Site: {}\n Username/Email: {}\n Password: {}\n anton> (Y/n): '.format(site, uname,psswd))
     if (quest == 'y') or (quest == "yes") or (quest=="Y"):
         cursor.execute(query)
         db.commit()
