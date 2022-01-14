@@ -29,16 +29,15 @@ def gen_passwd():
 
 def connect_mysql(user, password):
     try:
-        db = sql.connect(host='localhost', user=user, password=password, database='manager', auth_plugin="mysql_native_password") # Set auth_plugin because ubuntu...
+        db = sql.connect(host='localhost', user=user, password=password, database='test', auth_plugin="mysql_native_password") # Set auth_plugin because ubuntu...
         cursor = db.cursor()
         con = True
     except Exception as e:
         db = sql.connect(host='localhost', user=user, password=password, auth_plugin="mysql_native_password")
         cursor = db.cursor()
-        cursor.execute('create database manager')
+        cursor.execute('create database test')
         db.commit()
-        cursor.execute('use manager')
-        cursor.execute('create table manager(site varchar(50) not null, name varchar(50) not null, password varchar(50) not null')
+        cursor.execute('create table test(site varchar(50) not null, user varchar(50) not null, password varchar(50) not null)')
         db.commit()
         print("[+] Database and table creation complete.\n")
         con = True
@@ -53,7 +52,7 @@ def insert_mysql(db, cursor, psswd):
         site = input('Please insert app name: ')
         uname = input('Please insert the username/email: ')
         psswd = input('Please insert the password: ')
-    query = 'insert into manager values ("{}", "{}", "{}")'.format(site, uname,psswd)
+    query = 'insert into test values ("{}", "{}", "{}")'.format(site, uname,psswd)
     quest = input('Are you sure you want to add: \n Site: {}\n Username/Email: {}\n Password: {}\n anton> (Y/n): '.format(site, uname,psswd))
     if (quest == 'y') or (quest == "yes") or (quest=="Y"):
         cursor.execute(query)
@@ -69,7 +68,7 @@ def print_df(df):
     input('PRESS ENTER TO RETURN TO MENU')
 
 def print_results(db):
-    df = pd.read_sql("select * from manager order by user asc", db)
+    df = pd.read_sql("select * from test order by user asc", db)
     df = df.rename(columns={'site':'Application', 'user':'Username/Email', 'password':'Password'})
     print_df(df)
 
@@ -78,11 +77,11 @@ def filter_results(db):
     try:
         if quest == 'u':
             quest2 = input('Enter username: ')
-            query = 'select * from manager where user like "%{}%"'.format(quest2)
+            query = 'select * from test where user like "%{}%"'.format(quest2)
             df = pd.read_sql(query, db)
         elif quest == 'a':
             quest2 = input('Enter application: ')
-            query = 'select * from manager where site like "%{}%"'.format(quest2)
+            query = 'select * from test where site like "%{}%"'.format(quest2)
             df = pd.read_sql(query, db)
         df = df.rename(columns={'site':'Application', 'user':'Username/Email', 'password':'Password'})
         print_df(df)
@@ -95,9 +94,11 @@ try:
     usr = input("Mysql username: ")
     cli = Password(prompt="Mysql password: ", hidden="")
     pwd = cli.launch()
+    print(pwd)
     db, cursor, con = connect_mysql(usr, pwd)
 except Exception as e:
     print('Wrong credentials, bye.')
+
 if con:
     while True: 
         opt = menu()
