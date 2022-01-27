@@ -38,7 +38,11 @@ def convert(opt):
         tipo = 'hexadecimal'
         return result, num, tipo 
     elif opt == 4:
-        return
+        num = input('\n[+] Please enter the hexadecimal number\nanton> ')
+        result_dec = int(num,16)
+        result = bin(result_dec)
+        tipo = 'binary'
+        return result, num, tipo 
     elif opt == 5:
         return
     elif opt == 6:
