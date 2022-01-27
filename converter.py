@@ -27,9 +27,16 @@ def convert(opt):
         tipo = 'decimal'
         return result, num, tipo 
     elif opt == 2:
-        return
+        num = input('\n[+] Please enter the decimal number\nanton> ')
+        result = bin(int(num))
+        tipo = 'binary'
+        return result, num, tipo 
     elif opt == 3:
-        return
+        num = input('\n[+] Please enter the binary number\nanton> ')
+        result_dec = int(num,2)
+        result = hex(result_dec)
+        tipo = 'hexadecimal'
+        return result, num, tipo 
     elif opt == 4:
         return
     elif opt == 5:
