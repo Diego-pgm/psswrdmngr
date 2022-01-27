@@ -44,7 +44,10 @@ def convert(opt):
         tipo = 'binary'
         return result, num, tipo 
     elif opt == 5:
-        return
+        num = input('\n[+] Please enter the decimal number\nanton> ')
+        result = hex(int(num))
+        tipo = 'hexadecimal'
+        return result, num, tipo 
     elif opt == 6:
         return
     
