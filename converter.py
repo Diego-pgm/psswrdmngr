@@ -49,7 +49,12 @@ def convert(opt):
         tipo = 'hexadecimal'
         return result, num, tipo 
     elif opt == 6:
-        return
+        num = input('\n[+] Please enter the hexadecimal number\nanton> ')
+        result = int(num,16)
+        tipo = 'decimal'
+        return result, num, tipo 
+    else:
+        print('[-] Please enter a valid option')
     
     
         
