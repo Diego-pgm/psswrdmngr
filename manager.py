@@ -109,7 +109,7 @@ def delete_user(db, cursor):
 
 try:
     psswd = ""
-    usr = input("Mysql username: ")
+    usr = input("Username: ")
     cli = Password(prompt="Mysql password: ", hidden="")
     pwd = cli.launch()
     print(pwd)
@@ -118,22 +118,26 @@ except Exception as e:
     print('Wrong credentials, bye.')
 
 if con:
-    while True: 
-        opt = menu()
-        if opt == 0:
-            quit()
-        elif opt == 1:
-            psswd = gen_passwd()
-            print('[+] The password generated is: ', psswd,'\n')
-            input('PRESS ENTER TO CONTINUE')
-        elif opt == 2:
-            insert_mysql(db, cursor, psswd)
-        elif opt == 3:
-            print_results(db)
-        elif opt == 4:
-            filter_results(db)
-        elif opt == 5:
-            delete_user(db, cursor)
-        else:
-            print('[-] Please enter a valid option.')
-            continue
+    try:
+        while True: 
+            opt = menu()
+            if opt == 0:
+                print('Goodbye!')
+                quit()
+            elif opt == 1:
+                psswd = gen_passwd()
+                print('[+] The password generated is: ', psswd,'\n')
+                input('PRESS ENTER TO CONTINUE')
+            elif opt == 2:
+                insert_mysql(db, cursor, psswd)
+            elif opt == 3:
+                print_results(db)
+            elif opt == 4:
+                filter_results(db)
+            elif opt == 5:
+                delete_user(db, cursor)
+            else:
+                print('[-] Please enter a valid option.')
+                continue
+    except ValueError:
+        print('Please insert the option as a number.')
